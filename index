@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sỉ Lẻ Hải Đăng - Kho Giày Cũ 2Hand Chính Hãng</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <span class="bar-left"></span>
+                    <span class="bar-right"></span>
+                </div>
+                <div class="logo-text">HẢI ĐĂNG SNEAKER<span>SỈ LẺ GIÀY CŨ CHÍNH HÃNG</span></div>
+            </div>
+            <nav class="navbar">
+                <ul class="nav-links">
+                    <li><a href="#" class="active">Trang chủ</a></li>
+                    <li><a href="#products">Kho Hàng Giới Hạn (10)</a></li>
+                    <li><a href="#about">Về Hải Đăng</a></li>
+                    <li><a href="#contact">Liên hệ</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <button class="btn-nav" onclick="toggleAuthModal()">👤 Đăng nhập</button>
+                <button class="btn-nav btn-cart-nav" onclick="toggleCartModal()">🛒 Giỏ hàng (<span id="cart-count">0</span>)</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="banner">
+        <div class="container banner-container">
+            <div class="banner-content" style="text-align: center; width: 100%;">
+                <img src="https://ibrand.vn/wp-content/uploads/2022/10/logo-shop-giay-8.jpg" alt="Hải Đăng Sneakers - Bước đi của sự kiêu hãnh" style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
+                <br><br>
+                <a href="#products" class="btn-explore" style="margin-top: 15px;">XEM NGAY KHO HÀNG TUYỂN CHỌN</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="products" class="products-section">
+        <div class="container">
+            <h2 class="section-title">10 Siêu Phẩm Cũ Tuyển Chọn (Độ Mới > 95%)</h2>
+            <p style="text-align:center; margin-top:-30px; margin-bottom:40px; color:#666; font-size:14px;">💡 Bấm trực tiếp vào từng ảnh mẫu giày để xem chi tiết Độ mới, Tính năng & Cấu tạo đế thực tế.</p>
+
+            <div class="product-grid" id="product-container">
+                </div>
+        </div>
+    </section>
+
+    <div id="authModal" class="modal">
+        <div class="modal-content auth-content">
+            <span class="close-btn" onclick="toggleAuthModal()">&times;</span>
+            <h2 class="modal-title" style="text-align: center; margin-bottom: 20px;">Đăng Nhập Hệ Thống</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Tài khoản / Số điện thoại</label>
+                    <input type="text" placeholder="Nhập số điện thoại..." required>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" placeholder="Nhập mật khẩu..." required>
+                </div>
+                <button type="submit" class="btn-action-primary">ĐĂNG NHẬP</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="cartModal" class="modal">
+        <div class="modal-content cart-content">
+            <span class="close-btn" onclick="toggleCartModal()">&times;</span>
+            <h2 class="modal-title" style="margin-bottom: 20px;">🛒 Đơn Hàng Của Bạn</h2>
+            <div id="cart-items-container">
+                <p style="color:#888; text-align:center; padding: 20px 0;">Chưa có sản phẩm nào được chọn.</p>
+            </div>
+            <hr>
+            <div class="cart-total-box">
+                <span>Tổng tiền tạm tính:</span>
+                <span id="cart-total-price" style="color:#ff5500; font-weight:800; font-size:18px;">0 đ</span>
+            </div>
+            <button class="btn-action-primary" onclick="handleCheckout()" style="margin-top: 15px;">XÁC NHẬN CHỐT ĐƠN</button>
+        </div>
+    </div>
+
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <div class="modal-body">
+                <div class="modal-img-container">
+                    <img id="modalImg" src="" alt="Sneaker Detail">
+                </div>
+                <div class="modal-details">
+                    <h2 id="modalName" class="modal-title">Tên Giày</h2>
+                    <div id="modalPrice" class="modal-price">0 đ</div>
+                    <hr>
+                    <div class="modal-meta">
+                        <p><strong>✨ Độ mới thực tế:</strong> <span id="modalCond" style="color: #2ed573; font-weight: 700;"></span></p>
+                        <p><strong>⚙️ Đặc điểm kiểu dáng:</strong> <span id="modalFeatures"></span></p>
+                        <p><strong>🚀 Công nghệ & Đế giày:</strong> <span id="modalTech"></span></p>
+                        <p><strong>🧥 Phong cách phối đồ:</strong> <span id="modalFit"></span></p>
+                    </div>
+                    <button class="btn-buy-now" onclick="closeModal()">Quay lại kho hàng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">Về Sỉ Lẻ Hải Đăng</h2>
+            <p class="about-text">
+                Kho giày cũ **Sỉ Lẻ Hải Đăng** chuyên thu mua và phân phối sỉ/lẻ các dòng sneaker tuyển chọn chính hãng từ các thương hiệu lớn như MLB, Adidas. Chúng tôi cam kết sản phẩm nước đầu, đã được vệ sinh, khử khuẩn sạch sẽ bằng công nghệ cao, đem lại giải pháp tiết kiệm tối đa cho người yêu giày.
+            </p>
+        </div>
+    </section>
+
+    <footer id="contact" class="footer">
+        <div class="container footer-container">
+            <div class="footer-col">
+                <div class="logo footer-logo">
+                    <div class="logo-icon white-icon">
+                        <span class="bar-left"></span>
+                        <span class="bar-right"></span>
+                    </div>
+                    <div class="logo-text">HẢI ĐĂNG SNEAKER</div>
+                </div>
+                <p class="footer-desc">Kho hàng sỉ lẻ sneaker 2Hand tuyển chọn uy tín, chất lượng.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Thông tin liên hệ</h4>
+                <p class="contact-item">📞 Hotline lấy sỉ/lẻ: <strong>0982506708</strong></p>
+                <p class="contact-item">📍 Địa chỉ tổng kho: <strong>207 Giải Phóng, Hai Bà Trưng, Hà Nội</strong></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dữ liệu chuẩn xác khớp chính xác với tên file ảnh gốc của bạn
+        const allProducts = [
+            {
+                id: 1,
+                name: "[2Hand] MLB Playball Mule Monogram NY Black",
+                price: 650000,
+                img: "https://vn-live-01.slatic.net/p/6568be37fe1c1a481e7264dc979ac911.jpg",
+                condition: "Độ mới 97% (Vải Canvas màu đen bền bỉ)",
+                features: "Kiểu dáng hở gót (Mule sục) đang là xu hướng dạo phố cực hot nhờ sự tiện lợi, kết hợp họa tiết chữ NY Monogram phong cách.",
+                tech: "Thân vải Canvas dày dặn thoáng khí, lót giày Ortholite êm ái thấm hút mồ hôi, đế đúc cao su lưu hóa bền bỉ.",
+                fit: "Thích hợp đi cùng quần nỉ ống suông, váy tennis ngắn hoặc short kaki cá tính."
+            },
+            {
+                id: 2,
+                name: "[2Hand] MLB Chunky Liner New York Yankees White Green",
+                price: 950000,
+                img: "https://vn-live-01.slatic.net/p/6568be37fe1c1a481e7264dc979ac911.jpg",
+                condition: "Độ mới 99% (Hàng lướt như mới)",
+                features: "Thiết kế có đường viền (Liner) thanh lịch, thon gọn chân. Sự kết hợp màu sắc tinh tế giữa nền trắng và viền xanh lá (Green).",
+                tech: "Chất liệu da tổng hợp cao cấp mềm mịn và dễ vệ sinh. Cấu trúc đế Cupsole đúc nguyên khối hack chiều cao thêm 4.5cm.",
+                fit: "Phối đẹp mắt với quần Jeans xanh sáng, quần baggy vải hoặc áo thun Local Brand."
+            },
+            {
+                id: 3,
+                name: "[2Hand] MLB Chunky Liner Low Boston Beige",
+                price: 890000,
+                img: "https://www.creawebshop.jp/data/creawebshop/product/20240125_f85b3f.jpg",
+                condition: "Đ--ộ mới 96% (Form da căng cứng cáp)",
+                features: "Tông màu Beige (kem/nâu sữa) cổ điển dễ phối đồ. Logo biểu tượng chữ B đại diện cho đội bóng chày Boston Red Sox.",
+                tech: "Phần viền cổ chân lót đệm Mesh êm ái tránh đau gót. Mặt đế ngoài có các khối hoa văn bám đường, chống trơn trượt.",
+                fit: "Rất phù hợp phong cách Vintage, quần tây suông ống rộng màu nâu/kem, áo Blazer dáng rộng."
+            },
+            {
+                id: 4,
+                name: "[2Hand] MLB Chunky Classic Heel Dia Monogram NY",
+                price: 780000,
+                img: "https://img.ltwebstatic.com/images3_spmp/2024/12/29/94/17354567529507379bbc49fbbf24b008d709e37640.webp",
+                condition: "Độ mới 95% (Họa tiết gót sắc nét)",
+                features: "Sự kết hợp giữa phom giày Classic cổ thấp tối giản và điểm nhấn gót sau bọc vải Monogram họa tiết kim cương (Dia) cao cấp.",
+                tech: "Đế platform nguyên khối liền mạch cao ~4.5cm bằng chất liệu đàn hồi cao giúp giảm áp lực chấn động khi di chuyển.",
+                fit: "Phối cùng váy liền thân, yếm Jeans thời trang hoặc phong cách Casual học sinh sinh viên."
+            },
+            {
+                id: 5,
+                name: "[2Hand] MLB Big Ball Chunky Play LA Dodgers",
+                price: 820000,
+                img: "https://cbu01.alicdn.com/img/ibank/O1CN01iYTF9W1Gai3R67aRY_!!2210952420639-0-cib.310x310.jpg",
+                condition: "Độ mới 96% (Logo LA sắc sảo)",
+                features: "Đôi Chunky đế dày hầm hố huyền thoại. Logo LA màu xanh dương được in theo dạng đồ họa Pixel kỹ thuật số đầy sáng tạo.",
+                tech: "Cấu trúc đế kép dày cộm giúp tăng ngay 6cm chiều cao một cách tự nhiên. Lót Eva 2 lớp tạo độ đầm chắc chân.",
+                fit: "Outfit hiphop, quần túi hộp Cargo Pants bóp gấu, áo Hoodie oversize cá tính."
+            },
+            {
+                id: 6,
+                name: "[2Hand] MLB Big Ball Chunky Glove NY White Gum",
+                price: 750000,
+                img: "https://tse3.mm.bing.net/th/id/OIP.uAJHX9OnlbE29xL3QOlVdgHaHO?r=0&w=755&h=737&rs=1&pid=ImgDetMain&o=7&rm=3",
+                condition: "Độ mới 94% (Đế cao su Gum chịu lực)",
+                features: "Thiết kế ngộ nghĩnh mô phỏng chiếc găng tay bắt bóng chày (Glove) ôm lấy chữ NY. Gầm đế màu nâu cao su Gum chống mòn bám đường.",
+                tech: "Đế giữa bằng hợp chất cao cấp tạo sự êm ái. Da bọc ngoài xử lý mờ lì tinh tế, kết cấu may viền chỉ đôi chắc chắn.",
+                fit: "Quần Jeans rách gối bụi bặm, các set đồ Streetwear tối màu tạo điểm nhấn tương phản."
+            },
+            {
+                id: 7,
+                name: "[2Hand] MLB Big Ball Chunky A-Line New York Yankees",
+                price: 850000,
+                img: "https://i.pinimg.com/736x/f5/95/d3/f595d328d2afc8c810f05a79d10d9e1e.jpg",
+                condition: "Độ mới 98% (Da trắng sạch sẽ)",
+                features: "Dòng cải tiến A-Line với các đường gân nổi chạy dọc bao quanh thân, tạo hiệu ứng khối rõ rệt và thể thao khỏe khoắn.",
+                tech: "Chất liệu da PU phủ bóng nhẹ giúp chống nước bẩn rỉ sệt nhẹ, dễ dàng lau chùi bằng khăn ẩm. Đế đúc đầm chân.",
+                fit: "Lý tưởng phối cùng quần short thun, bộ đồ thể thao nỉ hoặc váy thể thao năng động."
+            },
+            {
+                id: 8,
+                name: "[2Hand] MLB Big Ball Chunky Classic Boston Red Sox",
+                price: 800000,
+                img: "https://i.pinimg.com/736x/cd/db/1f/cddb1fd802c0585b592d37f0d1d88b1f.jpg",
+                condition: "Độ mới 96% (Form chuẩn không gãy mũi)",
+                features: "Mẫu giày luôn nằm trong top bán chạy nhất với biểu tượng chữ B đỏ cá tính rực rỡ từ câu lạc bộ Boston.",
+                tech: "Thiết kế mũi giày đục lỗ nhỏ li ti tản nhiệt tốt. Phần gót lót bông dày bảo vệ gót chân không bị phồng rộp khi đi nhiều.",
+                fit: "Dễ kết hợp với mọi trang phục, đặc biệt là các item có sắc đỏ, trắng hoặc đen tone-sur-tone."
+            },
+            {
+                id: 9,
+                name: "[2Hand] Dép Adidas Yeezy Slide Flax",
+                price: 550000,
+                img: "https://i.pinimg.com/originals/c8/45/f8/c845f87231eb8b93ee1acedfbfcf3562.jpg",
+                condition: "Độ mới 92% (Gân răng cưa gầm đế còn nguyên)",
+                features: "Đôi dép slide quốc dân màu Flax (nâu đất/rêu nhẹ) cực tây, đúc nguyên khối tối giản tôn vinh sự thoải mái hằng ngày.",
+                tech: "Sử dụng hoàn toàn chất liệu bọt khí EVA độc quyền siêu nhẹ, đàn hồi trả lực tốt. Mặt dưới răng cưa chống trượt nước.",
+                fit: "Mang cùng tất dệt cổ cao, quần short thun, đồ tập thể thao năng động dạo phố thời tiết mát mẻ."
+            },
+            {
+                id: 10,
+                name: "[2Hand] Sneaker Trắng Vietlavani Hoạ Tiết Lông Vũ",
+                price: 250000,
+                img: "https://i.pinimg.com/736x/d8/0c/cc/d80cccb6cf0f2f0c15e3e430569d95b7.jpg",
+                condition: "Độ mới 99% (Đã làm sạch thơm tho)",
+                features: "Phom dáng sneaker buộc dây trắng cơ bản (Basic White Sneakers), được vẽ cách điệu hình lông vũ màu đen mềm mại dọc má ngoài.",
+                tech: "Đế cao su phẳng dẻo dai bám sàn tốt, chất liệu thân giày bằng da PU nhẹ nhàng ôm phom chân thoải mái.",
+                fit: "Trang phục đi học, đi làm hằng ngày, dễ dàng ăn nhập với quần Jeans ống đứng, chân váy dài hoặc quần Kaki."
+            }
+        ];
+
+        let cart = [];
+
+        // In 10 sản phẩm lên giao diện lưới
+        function renderProducts() {
+            const container = document.getElementById('product-container');
+            container.innerHTML = "";
+
+            allProducts.forEach(product => {
+                const card = document.createElement('div');
+                card.className = "product-card";
+                card.innerHTML = `
+                    <div class="product-img-box" onclick="openModal(${product.id})">
+                        <img src="${product.img}" alt="${product.name}">
+                        <div class="quick-view-overlay"><span class="quick-view-btn">🔍 Xem Chi Tiết</span></div>
+                    </div>
+                    <div class="product-info">
+                        <div style="font-size: 11px; color: #2ed573; font-weight: 700; margin-bottom: 4px;">✨ ${product.condition}</div>
+                        <h3 class="product-name" onclick="openModal(${product.id})">${product.name}</h3>
+                        <div class="product-price">${product.price.toLocaleString('vi-VN')} đ</div>
+                        <button class="btn-add-cart" onclick="addToCart(${product.id})">Thêm vào đơn</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // --- ĐIỀU KHIỂN POPUP CHI TIẾT ---
+        function openModal(id) {
+            const product = allProducts.find(p => p.id === id);
+            if (!product) return;
+            document.getElementById("modalImg").src = product.img;
+            document.getElementById("modalName").innerText = product.name;
+            document.getElementById("modalPrice").innerText = product.price.toLocaleString('vi-VN') + " đ";
+            document.getElementById("modalCond").innerText = product.condition;
+            document.getElementById("modalFeatures").innerText = product.features;
+            document.getElementById("modalTech").innerText = product.tech;
+            document.getElementById("modalFit").innerText = product.fit;
+            document.getElementById("productModal").style.display = "flex";
+        }
+        function closeModal() { document.getElementById("productModal").style.display = "none"; }
+
+        // --- ĐIỀU KHIỂN ĐĂNG NHẬP ---
+        function toggleAuthModal() {
+            const m = document.getElementById("authModal");
+            m.style.display = (m.style.display === "flex") ? "none" : "flex";
+        }
+        function handleLogin(e) {
+            e.preventDefault();
+            alert("🎉 Đăng nhập hệ thống Sỉ Lẻ Hải Đăng thành công!");
+            toggleAuthModal();
+        }
+
+        // --- ĐIỀU KHIỂN GIỎ HÀNG & THANH TOÁN ---
+        function toggleCartModal() {
+            const m = document.getElementById("cartModal");
+            m.style.display = (m.style.display === "flex") ? "none" : "flex";
+            renderCartItems();
+        }
+
+        function addToCart(id) {
+            const product = allProducts.find(p => p.id === id);
+            cart.push(product);
+            document.getElementById("cart-count").innerText = cart.length;
+            alert(`🛒 Đã thêm đôi "${product.name}" vào đơn hàng thành công!`);
+        }
+
+        function renderCartItems() {
+            const container = document.getElementById("cart-items-container");
+            if(cart.length === 0) {
+                container.innerHTML = `<p style="color:#888; text-align:center; padding: 20px 0;">Chưa có sản phẩm nào được chọn.</p>`;
+                document.getElementById("cart-total-price").innerText = "0 đ";
+                return;
+            }
+            container.innerHTML = "";
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += item.price;
+                const row = document.createElement('div');
+                row.className = "cart-item-row";
+                row.innerHTML = `
+                    <img src="${item.img}" style="width:50px; height:50px; object-fit:contain; background:#f5f5f5; border-radius:4px;">
+                    <div style="flex:1; margin-left:10px;">
+                        <h4 style="font-size:12px; font-weight:700;">${item.name}</h4>
+                        <span style="font-size:12px; color:#ff5500; font-weight:600;">${item.price.toLocaleString('vi-VN')} đ</span>
+                    </div>
+                    <span style="color:#ff3b30; cursor:pointer; font-size:12px; font-weight: bold; margin-left: 10px;" onclick="removeFromCart(${index})">Xóa</span>
+                `;
+                container.appendChild(row);
+            });
+            document.getElementById("cart-total-price").innerText = total.toLocaleString('vi-VN') + " đ";
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            document.getElementById("cart-count").innerText = cart.length;
+            renderCartItems();
+        }
+
+        function handleCheckout() {
+            if(cart.length === 0) return alert("Đơn hàng trống!");
+            alert(`📦 Chốt đơn thành công!\nSỉ Lẻ Hải Đăng sẽ liên hệ lại ngay với bạn qua SĐT để xác nhận size và ship hàng từ kho 207 Giải Phóng, Hà Nội.`);
+            cart = [];
+            document.getElementById("cart-count").innerText = "0";
+            toggleCartModal();
+        }
+
+        window.onclick = function(e) { if (e.target.className === "modal") { e.target.style.display = "none"; } }
+
+        // Khởi chạy hệ thống dữ liệu
+        window.onload = renderProducts;
+    </script>
+</body>
+</html>
